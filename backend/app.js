@@ -13,8 +13,10 @@ require('dotenv').config()
 const sequelize = require('./util/db') 
 
 const userRoutes = require('./routes/user')
+const expenseRoutes = require('./routes/expense')
 
 const User = require('./models/user')
+const Expense = require('./models/expenses');
 
 app.use(cors())
 app.use(express.json())
@@ -29,8 +31,10 @@ app.use(express.json())
 
 
 app.use('/user',userRoutes)
+app.use('/expense', expenseRoutes)
 
-
+User.hasMany(Expense);
+Expense.belongsTo(User);
 
 // app.use(express.static(path.join(__dirname , '../frontend' , 'signup.html')))
 sequelize.sync()

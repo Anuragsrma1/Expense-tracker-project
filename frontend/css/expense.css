@@ -1,0 +1,98 @@
+/* Resetting default margin and padding */
+body, h1, h2, form, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Setting default font family and size */
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+/* Centering the header */
+header {
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Styling the form */
+#expense-form {
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="number"],
+input[type="text"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 10%;
+    padding: 8px;
+    background-color: #141614;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #b30003;
+}
+
+/* Styling the message div */
+#message {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Styling the premium button */
+#premium-button {
+    display: block;
+    width: 30%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+   
+}
+
+#premium-button:hover {
+    background-color: #218838;
+}
+
+/* Styling the main content */
+main {
+    padding: 20px;
+}
+
+/* Styling the expenses list */
+#list-of-expenses {
+    list-style-type: none;
+    margin-top: 20px;
+}
+
+/* Styling the leaderboard */
+#leaderboard {
+    margin-top: 20px;
+}
+
+/* Additional styles can be added as needed */

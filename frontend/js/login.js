@@ -13,6 +13,7 @@ async function login(e) {
        if(result.data.success){
         alert('login successfully');
     //  console.log(login ,successfull);
+    window.location.href = "/frontend/expense.html"
        }
     }
     catch(e){

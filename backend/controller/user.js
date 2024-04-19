@@ -46,17 +46,17 @@ exports.createUser = async(req,res) => {
 
 exports.login = async(req,res) => {
     try{
-        console.log('start');
+        // console.log('start');
           const { email , password } = req.body;
-        console.log('line 41');
+        // console.log('line 41');
      if(isstringinvalid(email) || isstringinvalid(password))
        {
         return res.status(400).json({msg : 'email id or password is missing' , success : false})
        }
-       console.log('line 46');
+    //    console.log('line 46');
      console.log(password);
      const user = await User.findAll({where : {email}})
-     console.log('line 47');
+    //  console.log('line 47');
      if(user.length > 0){
         bcrypt.compare(password, user[0].password,(err,result) =>{
             if(err){
