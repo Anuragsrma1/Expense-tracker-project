@@ -15,7 +15,7 @@ const sequelize = require('./util/db')
 const userRoutes = require('./routes/user')
 const expenseRoutes = require('./routes/expense')
 
-const User = require('./models/user')
+const User = require('./models/users')
 const Expense = require('./models/expenses');
 
 app.use(cors())
