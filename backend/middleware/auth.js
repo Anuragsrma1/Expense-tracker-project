@@ -13,13 +13,11 @@ const authenticate = (req, res, next) => {
             req.user = user; ///ver
             next();
         })
-
       } catch(err) {
         console.log(err);
         return res.status(401).json({success: false})
         // err
       }
-
 }
 
 module.exports = {

@@ -1,43 +1,44 @@
+const path = require('path');
+
 const express = require('express');
-const cors = require('cors');
-// const compression = require('compression')
-// const morgan = require('morgan')
-// const path = require('path');
-// const fs = require('fs');
-// const https = require('https')
-
-const app = express();
-
-require('dotenv').config()
-
-const sequelize = require('./util/db') 
+var cors = require('cors')
+const sequelize = require('./util/database');
+const User = require('./models/users');
+const Expense = require('./models/expenses');
+const Order = require('./models/orders');
 
 const userRoutes = require('./routes/user')
 const expenseRoutes = require('./routes/expense')
+const purchaseRoutes = require('./routes/purchase')
+const premiumFeatureRoutes = require('./routes/premiumFeature')
 
-const User = require('./models/users')
-const Expense = require('./models/expenses');
+const app = express();
+const dotenv = require('dotenv');
 
-app.use(cors())
-app.use(express.json())
-// app.use(helmet())
-// app.use(compression())
-
-
-// const accessLogStream = fs.createWriteStream(path.join(__dirname , 'access.log'),{flags : 'a'})
+// get config vars
+dotenv.config();
 
 
-// app.use(morgan('combined',{ stream :accessLogStream}))
+app.use(cors());
 
+// app.use(bodyParser.urlencoded());  ////this is for handling forms
+app.use(express.json());  //this is for handling jsons
 
-app.use('/user',userRoutes)
+app.use('/user', userRoutes)
 app.use('/expense', expenseRoutes)
+app.use('/purchase', purchaseRoutes)
+app.use('/premium', premiumFeatureRoutes)
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
 
-// app.use(express.static(path.join(__dirname , '../frontend' , 'signup.html')))
+User.hasMany(Order);
+Order.belongsTo(User);
+
 sequelize.sync()
- .then((result) => {
-    app.listen(5501)
- }).catch(e => console.log(e));
+    .then(() => {
+        app.listen(5501);
+    })
+    .catch(err => {
+        console.log(err);
+    })

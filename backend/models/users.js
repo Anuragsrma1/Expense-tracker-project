@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 
-const sequelize = require('../util/db')
+const sequelize = require('../util/database')
 
 const User = sequelize.define('user' , {
 
@@ -24,8 +24,8 @@ const User = sequelize.define('user' , {
    password : {
       type : Sequelize.STRING ,
       allowNull : false
-   }
-
+   },
+   ispremiumuser: Sequelize.BOOLEAN
 })
 
 module.exports = User;

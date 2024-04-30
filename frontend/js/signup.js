@@ -11,7 +11,7 @@ async function signup(e){
       const response = await axios.post('http://localhost:5501/user/createUser',signupDetails)
       console.log(response);
       if(response.status === 201){
-               // console.log('Signup successfull');
+            //   console.log('Signup successfull');
         window.location.href = "/frontend/login.html"
       }else{
         throw new Error('failed to login');

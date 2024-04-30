@@ -67,16 +67,16 @@ button:hover {
     width: 30%;
     padding: 10px;
     margin-top: 20px;
-    background-color: #28a745;
+    background-color: #1a1d1b;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-   
+   align-items : center ;
 }
 
 #premium-button:hover {
-    background-color: #218838;
+    background-color: #b30003;
 }
 
 /* Styling the main content */
