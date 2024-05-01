@@ -2,6 +2,9 @@ const path = require('path');
 
 const express = require('express');
 var cors = require('cors')
+const dotenv = require('dotenv');
+dotenv.config();
+
 const sequelize = require('./util/database');
 const User = require('./models/users');
 const Expense = require('./models/expenses');
@@ -13,10 +16,10 @@ const purchaseRoutes = require('./routes/purchase')
 const premiumFeatureRoutes = require('./routes/premiumFeature')
 
 const app = express();
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 
 // get config vars
-dotenv.config();
+// dotenv.config();
 
 
 app.use(cors());

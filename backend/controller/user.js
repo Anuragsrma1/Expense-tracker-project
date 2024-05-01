@@ -13,17 +13,17 @@ function isstringinvalid(string){
 
  const createUser = async (req, res)=>{
     try{
-    const { name, email, password } = req.body;
-    console.log('email', email)
-    if(isstringinvalid(name) || isstringinvalid(email) || isstringinvalid(password)){
-        console.log("line19");
+    const { username, email, password } = req.body;
+    // console.log('email', email, 'username' , username , 'password' , password)
+    if(isstringinvalid(username) || isstringinvalid(email) || isstringinvalid(password)){
+        // console.log("line19");
         return res.status(400).json({err: "Bad parameters . Something is missing"})
       
     }
     const saltrounds = 10;
     bcrypt.hash(password, saltrounds, async (err, hash) => {
-        console.log(err)
-        await User.create({ name, email, password: hash })
+        console.log(err,'err');
+        await User.create({ name : username, email, password: hash })
         res.status(201).json({message: 'Successfuly create new user'})
     })
     }catch(err) {
