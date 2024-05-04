@@ -112,7 +112,7 @@ document.getElementById('rzp-button1').onclick = async function (e) {
     {
      "key": response.data.key_id, // Enter the Key ID generated from the Dashboard
      "order_id": response.data.order.id,// For one time payment
-     // This handler function will handle the success payment
+    
      "handler": async function (response) {
         const res = await axios.post('http://localhost:5501/purchase/updatetransactionstatus',{
              order_id: options.order_id,

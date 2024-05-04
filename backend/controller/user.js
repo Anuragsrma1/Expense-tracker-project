@@ -60,6 +60,7 @@ const login = async (req, res) => {
             return res.status(404).json({success: false, message: 'User Doesnot exitst'})
         }
     }catch(err){
+        console.log(err);
         res.status(500).json({message: err, success: false})
     }
 }

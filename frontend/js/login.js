@@ -17,10 +17,8 @@ async function login(e) {
             console.log(response.data)
     localStorage.setItem('token', response.data.token)
     window.location.href = "/frontend/expense.html"
-       }
-    
+       }   
     catch(e){
-       console.log(e)
        alert(e.response.data.msg)
     }
 }

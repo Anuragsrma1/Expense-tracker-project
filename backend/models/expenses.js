@@ -13,7 +13,7 @@ const Expense = sequelize.define('expenses' , {
     expenseamount: Sequelize.INTEGER,
     category: Sequelize.STRING,
     description: Sequelize.STRING,
-
+   
 })
 
 module.exports = Expense;
