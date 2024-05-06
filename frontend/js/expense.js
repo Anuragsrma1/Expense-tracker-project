@@ -92,7 +92,7 @@ function showLeaderboard(){
         var leaderboardElem = document.getElementById('leaderboard')
         leaderboardElem.innerHTML += '<h1> Leader Board </<h1>'
         userLeaderBoardArray.data.forEach((userDetails) => {
-            leaderboardElem.innerHTML += `<li>Name - ${userDetails.name} Total Expense - ${userDetails.total_cost || 0} </li>`
+            leaderboardElem.innerHTML += `<li>Name - ${userDetails.name} Total Expense - ${userDetails.totalExpenses || 0} </li>`
         })
     }
     document.getElementById("message").appendChild(inputElement);
@@ -102,6 +102,26 @@ function showLeaderboard(){
 function removeExpensefromUI(expenseid){
     const expenseElemId = `expense-${expenseid}`;
     document.getElementById(expenseElemId).remove();
+}
+
+function download(){
+    axios.get('http://localhost:5501/user/download', { headers: {"Authorization" : token} })
+    .then((response) => {
+        if(response.status === 201){
+            //the bcakend is essentially sending a download link
+            //  which if we open in browser, the file would download
+            var a = document.createElement("a");
+            a.href = response.data.fileUrl;
+            a.download = 'myexpense.csv';
+            a.click();
+        } else {
+            throw new Error(response.data.message)
+        }
+
+    })
+    .catch((err) => {
+        showError(err)
+    });
 }
 
 document.getElementById('rzp-button1').onclick = async function (e) {
