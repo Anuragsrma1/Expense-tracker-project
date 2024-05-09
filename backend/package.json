@@ -20,10 +20,12 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "mysql2": "^3.9.3",
+    "nodemailer": "^6.9.13",
     "nodemon": "^3.1.0",
     "path": "^0.12.7",
     "razorpay": "^2.9.3",
     "sequelize": "^6.37.2",
+    "sib-api-v3-sdk": "^8.5.0",
     "uuid": "^9.0.1"
   }
 }

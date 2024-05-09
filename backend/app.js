@@ -18,12 +18,11 @@ const premiumFeatureRoutes = require('./routes/premiumFeature')
 const resetPasswordRoutes = require('./routes/resetpassword')
 
 const app = express();
-app.use(cors('*'));
+app.use(cors());
 
-
+// app.use(express.urlencoded({ extended: true }));
 // app.use(bodyParser.urlencoded());  ////this is for handling forms
 app.use(express.json());  //this is for handling jsons
-app.use(express.urlencoded({ extended: true }));
 
 app.use('/user', userRoutes)
 app.use('/expense', expenseRoutes)
