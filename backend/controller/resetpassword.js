@@ -1,60 +1,53 @@
 const User = require('../models/users');
 const uuid = require('uuid');
-const Sib = require('sib-api-v3-sdk');
+const sgMail = require('@sendgrid/mail');
+// const Sib = require('sib-api-v3-sdk');
 const bcrypt = require('bcrypt');
 const forgotPassword = require('../models/forgotpassword');
 require('dotenv').config();
 
-const forgotpassword = async (req, res, next) => {
+const forgotpassword = async (req, res) => {
     try {
-        const { email } = req.body;
-        const user = await User.findOne({ where: { email: email } });
-        console.log(user);
-
-        if (user) {
+        const { email } =  req.body;
+        const user = await User.findOne({where : { email }});
+        if(user){
             const id = uuid.v4();
-            console.log(user.id);
-            await forgotPassword.create({ id, active: true,userId:user.id });
+            user.createForgotpassword({ id , active: true })
+                .catch(err => {
+                    throw new Error(err)
+                })
 
-            const client = Sib.ApiClient.instance;
-            const apiKey = client.authentications['api-key'];
-            apiKey.apiKey = process.env.EMAIL_API_KEY;
-            console.log('api key>>>',apiKey.apiKey)
-            const transEmailApi = new Sib.TransactionalEmailsApi();
-            
-          console.log('transEmailApi',transEmailApi);
-            const sender = {
-                email: 'anuragsharma0140@gmail.com',
-                name: 'anurag'
-            }
-            const receiver = [{
-                email:'anurag.sharma0230@gmail.com'
-            }];
-               await transEmailApi.sendTransacEmail({
-                sender,
-                to: receiver,
-                subject: fogotPassword,
-                textContent:'Follow the link and reset the password',
-                htmlContent: `<h1>click on the link below to reset the password</h1><br> 
-                 <a href="http://localhost:5501/password/resetpassword/${id}">Reset your password</a>`,
-                        })
-       
-                console.log('Link to reset password sent to your mail')
-                return res.status(202).json({ success: true, message: "Link to reset password sent to your mail" });
-            
-            }
-         else {
-            throw new Error('User Doesnt exist');
-        }
+            sgMail.setApiKey(process.env.SENGRID_API_KEY)
 
-    } catch (err) {
-        console.error(err);
-        if (err.status === 401) {
-            return res.status(401).json({ message: "Unauthorized: Invalid API key", success: false });
-        } else {
-            return res.status(500).json({ message: "Failed to send reset password email", success: false });
+            const msg = {
+                to: 'anurag.sharma0230@gmail.com', // Change to your recipient
+                from: 'anuragsharma0140@gmail.com', // Change to your verified sender
+                subject: 'Sending with SendGrid is Fun',
+                text: 'and easy to do anywhere, even with Node.js',
+                html: `<a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`,
+            }
+
+            sgMail
+            .send(msg)
+            .then((response) => {
+
+            
+                return res.status(response[0].statusCode).json({message: 'Link to reset password sent to your mail ', sucess: true})
+
+            })
+            .catch((error) => {
+                throw new Error(error);
+            })
+
+            //send mail
+        }else {
+            throw new Error('User doesnt exist')
         }
+    } catch(err){
+        console.error(err)
+        return res.json({ message: err, sucess: false });
     }
+
 }
 const resetpassword = (req, res) => {
     const id =  req.params.id;
