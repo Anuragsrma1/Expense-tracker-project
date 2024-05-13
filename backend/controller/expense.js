@@ -43,19 +43,11 @@ const getexpenses = (req, res)=> {
 
 const deleteexpense = (req, res) => {
     const expenseid = req.params.expenseid;
-    if(expenseid == undefined || expenseid.length === 0){
-        return res.status(400).json({success: false, })
-    }
-    Expense.destroy({where: { id: expenseid, userId: req.user.id }}).then(async expenseid =>{
-        req.user.totalExpenses = Number(req.user.totalExpenses) - Number(expenseid[0].expenseamount)
-        console.log(expenseid)
-        await req.user.save()
-        return expenseid[0].destroy()
-    }).then(()=>{
-        return res.status(200).json({success : true , msg : "deleted successfully"})
-    }).catch(e =>{
-        console.log(e)
-        return res.status(401).json({success : false })
+    Expense.destroy({where: { id: expenseid }}).then(() => {
+        return res.status(204).json({ success: true, message: "Deleted Successfuly"})
+    }).catch(err => {
+        console.log(err);
+        return res.status(403).json({ success: true, message: "Failed"})
     })
 }
 
