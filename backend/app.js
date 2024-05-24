@@ -5,6 +5,18 @@ var cors = require('cors')
 const dotenv = require('dotenv');
 dotenv.config();
 
+const app = express();
+ app.use(cors('*'));
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin", "*");
+//     res.setHeader("Access_Control-Allow-Methods", "POST, GET, OPTIONS");
+//     res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//     if (req.method === "OPTIONS") {
+//       return res.sendStatus(200);
+//     }
+//     next();
+//   });
+
 const sequelize = require('./util/database');
 const User = require('./models/users');
 const Expense = require('./models/expenses');
@@ -17,8 +29,7 @@ const purchaseRoutes = require('./routes/purchase')
 const premiumFeatureRoutes = require('./routes/premiumFeature')
 const resetPasswordRoutes = require('./routes/resetpassword')
 
-const app = express();
-app.use(cors());
+
 
 // app.use(express.urlencoded({ extended: true }));
 // app.use(bodyParser.urlencoded());  ////this is for handling forms

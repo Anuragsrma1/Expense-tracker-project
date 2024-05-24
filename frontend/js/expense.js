@@ -105,23 +105,22 @@ function removeExpensefromUI(expenseid){
 }
 
 function download(){
-    axios.get('http://localhost:5501/user/download', { headers: {"Authorization" : token} })
+    const token = localStorage.getItem('token')
+    axios.get('http://localhost:5501/expense/downloadExpenses', { headers: {"Authorization" : token} })
     .then((response) => {
         if(response.status === 201){
-            //the bcakend is essentially sending a download link
-            //  which if we open in browser, the file would download
+           
             var a = document.createElement("a");
-            a.href = response.data.fileUrl;
-            a.download = 'myexpense.csv';
+            a.href = response.data.fileURL;
+            // a.download = 'myexpense.csv';
             a.click();
         } else {
             throw new Error(response.data.message)
         }
-
     })
     .catch((err) => {
         showError(err)
-    });
+    })
 }
 
 document.getElementById('rzp-button1').onclick = async function (e) {
@@ -130,8 +129,8 @@ document.getElementById('rzp-button1').onclick = async function (e) {
     console.log(response);
     var options =
     {
-     "key": response.data.key_id, // Enter the Key ID generated from the Dashboard
-     "order_id": response.data.order.id,// For one time payment
+     "key": response.data.key_id,
+     "order_id": response.data.order.id,
     
      "handler": async function (response) {
         const res = await axios.post('http://localhost:5501/purchase/updatetransactionstatus',{
@@ -155,4 +154,57 @@ document.getElementById('rzp-button1').onclick = async function (e) {
     console.log(response)
     alert('Something went wrong')
  });
+}
+
+async function showPagination({ currentPage, hasNextPage, nextPage, hasPreviousPage, previousPage, lastPage }) {
+    try {
+        const prevBtn = document.getElementById('prev');
+        const currBtn = document.getElementById('curr');
+        const netxBtn = document.getElementById('next');
+
+
+        if (hasPreviousPage) {
+            prevBtn.addEventListener('click', () => {
+                // console.log(previousPage)
+                getProducts(previousPage)
+
+            });
+        }
+
+        currBtn.addEventListener('click', () => {
+            // console.log("currentPage")
+            getProducts(currentPage)
+        });
+
+
+        if (hasNextPage) {
+            netxBtn.addEventListener('click', () => {
+                // console.log(nextPage)
+                getProducts(nextPage)
+            })
+        }
+
+
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+
+async function getProducts(page) {
+    try {
+        const token = localStorage.getItem('token')
+        const response = await axios.get(`http://localhost:5501/expense/pagination?page=${page}`, { headers: { 'Authorization': token } })
+        console.log(response);
+        const ExpesesUl = document.getElementById('expensesList');
+        ExpesesUl.innerHTML = "";
+        response.data.allExpense.forEach(element => {
+            DisplayOnScreen(element);
+        });
+        showPagination(response.data)
+    }
+    catch (err) {
+        console.log(err)
+    }
 }

@@ -9,24 +9,23 @@ require('dotenv').config();
 const forgotpassword = async (req, res) => {
     try {
         const { email } =  req.body;
+        console.log('line 11>>>',email);
+        console.log('line 13>>',req.body);
         const user = await User.findOne({where : { email }});
         if(user){
             const id = uuid.v4();
-            user.createForgotpassword({ id , active: true })
-                .catch(err => {
-                    throw new Error(err)
-                })
-
+        await user.createForgotpassword({ id , active: true })
+               
             sgMail.setApiKey(process.env.SENGRID_API_KEY)
-
+            
             const msg = {
                 to: 'anurag.sharma0230@gmail.com', // Change to your recipient
                 from: 'anuragsharma0140@gmail.com', // Change to your verified sender
                 subject: 'Sending with SendGrid is Fun',
                 text: 'and easy to do anywhere, even with Node.js',
-                html: `<a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`,
+                html: `<a href="http://localhost:5501/password/resetpassword/${id}">Reset password</a>`,
             }
-
+           
             sgMail
             .send(msg)
             .then((response) => {
