@@ -18,30 +18,6 @@ const uploadToS3 = async(data,filename) =>{
         Bucket : BUCKET_NAME
      });
 
-//      s3bucket.createBucket(() => {
-//          var params = {
-//             Bucket : BUCKET_NAME,
-//             key:filename,
-//             body : data,
-//             ACL : 'public-read'
-//          }
-
-//          return new promise((resolve,reject) => {
-//             s3bucket.upload(params ,(err,s3response) => {
-             
-//                 if(err){
-//                   console.log('Something went wrong',err)
-//                   reject(err);
-//                 }else{
-//                   console.log('success',s3response);
-//                    s3response.Location;
-//                 }
-//                })  
-//          })
-
-//      })
-// }
-
 const params = {
     Bucket: BUCKET_NAME,
     Key: filename,
@@ -60,19 +36,7 @@ try {
 };
 
 
-// const downloadExpenses = async(req,res) => {
-//     const expenses = await req.user.getexpenses;
-//     // console.log(expenses);
-//     const stringifyExpenses = JSON.stringify(expenses);
 
-//     // it should be depend on the userid
-//     const userid = req.user.id;
-   
-//     const filename = `Expense${userid}/${new Date()}.txt`;
-//     // const fileURL = uploadToS3(stringifyExpenses,filename);
-//    return res.status(200).json({ fileURL ,success: true});
-
-// }
 
 // Downloading repots 
 const downloadReports = async (req, res, next) => {
