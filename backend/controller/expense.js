@@ -3,6 +3,9 @@ const Expense = require('../models/expenses');
 const User = require('../models/users');
 const sequelize = require('../util/database');
 const AWS = require('aws-sdk');
+const dotenv = require('dotenv');
+dotenv.config();
+
 
 const uploadToS3 = async(data,filename) =>{
      const BUCKET_NAME= process.env.BUCKET_NAME;
