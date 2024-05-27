@@ -10,8 +10,8 @@ router.get('/getexpenses', userauthentication.authenticate,  expenseController.g
 
 router.delete('/deleteexpense/:expenseid', userauthentication.authenticate, expenseController.deleteexpense)
 
-router.get('/downloadExpenses', userauthentication.authenticate, expenseController.downloadExpenses)
+router.get('/downloadReports', userauthentication.authenticate, expenseController.downloadReports)
 
- router.get('/pagination', userauthentication.authenticate, expenseController.paginateData);
+router.get('/pagination', userauthentication.authenticate, expenseController.paginateData);
 
 module.exports = router;

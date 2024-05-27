@@ -44,11 +44,13 @@ window.addEventListener('DOMContentLoaded', ()=> {
     }
     axios.get('http://localhost:5501/expense/getexpenses', { headers: {"Authorization" : token}})
     .then(response => {
-        console.log(response);
-            response.data.expenses.forEach(expense => {
-   
+        // console.log('line 47 res',response.data);
+        showPagination(response.data);
+           return response.data.expenses.forEach(expense => {
+                
                 addNewExpensetoUI(expense);
             })
+           
     }).catch(err => {
         showError(err)
     })
@@ -57,7 +59,7 @@ window.addEventListener('DOMContentLoaded', ()=> {
 function addNewExpensetoUI(expense){
     const parentElement = document.getElementById('listOfExpenses');
     const expenseElemId = `expense-${expense.id}`;
-    parentElement.innerHTML += `
+  return  parentElement.innerHTML += `
         <li id=${expenseElemId}>
             ${expense.expenseamount} - ${expense.category} - ${expense.description}
             <button onclick='deleteExpense(event, ${expense.id})'>
@@ -87,7 +89,7 @@ function showLeaderboard(){
     inputElement.onclick = async() => {
         const token = localStorage.getItem('token')
         const userLeaderBoardArray = await axios.get('http://localhost:5501/premium/showLeaderBoard', { headers: {"Authorization" : token} })
-        console.log(userLeaderBoardArray)
+        console.log('line 90',userLeaderBoardArray)
 
         var leaderboardElem = document.getElementById('leaderboard')
         leaderboardElem.innerHTML += '<h1> Leader Board </<h1>'
@@ -106,7 +108,7 @@ function removeExpensefromUI(expenseid){
 
 function download(){
     const token = localStorage.getItem('token')
-    axios.get('http://localhost:5501/expense/downloadExpenses', { headers: {"Authorization" : token} })
+    axios.get('http://localhost:5501/expense/downloadReports', { headers: {"Authorization" : token} })
     .then((response) => {
         if(response.status === 201){
            
@@ -161,29 +163,26 @@ async function showPagination({ currentPage, hasNextPage, nextPage, hasPreviousP
         const prevBtn = document.getElementById('prev');
         const currBtn = document.getElementById('curr');
         const netxBtn = document.getElementById('next');
-
+        
+       
 
         if (hasPreviousPage) {
             prevBtn.addEventListener('click', () => {
                 // console.log(previousPage)
-                getProducts(previousPage)
-
+             return   getProducts(previousPage)
             });
         }
-
         currBtn.addEventListener('click', () => {
             // console.log("currentPage")
-            getProducts(currentPage)
-        });
+          return    getProducts(currentPage)
+        });  
 
-
-        if (hasNextPage) {
+      if (hasNextPage) {
             netxBtn.addEventListener('click', () => {
                 // console.log(nextPage)
-                getProducts(nextPage)
+            return    getProducts(nextPage)
             })
         }
-
 
     }
     catch (err) {
@@ -196,13 +195,16 @@ async function getProducts(page) {
     try {
         const token = localStorage.getItem('token')
         const response = await axios.get(`http://localhost:5501/expense/pagination?page=${page}`, { headers: { 'Authorization': token } })
-        console.log(response);
-        const ExpesesUl = document.getElementById('expensesList');
-        ExpesesUl.innerHTML = "";
-        response.data.allExpense.forEach(element => {
-            DisplayOnScreen(element);
+        // console.log('line 199 res',response.data.allExpense);
+        const ExpesesUl = document.getElementById('listOfExpenses');
+         ExpesesUl.innerHTML = "";
+         showPagination(response.data);
+    return    response.data.allExpense.forEach(element => {
+            // console.log('line 205',element);
+            addNewExpensetoUI(element);
+           
         });
-        showPagination(response.data)
+ 
     }
     catch (err) {
         console.log(err)
